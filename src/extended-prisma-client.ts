@@ -6,7 +6,7 @@ export function getExtendedPrismaClient(siteUrl: string) {
             client: {
                 client_id: {
                     needs: { id: true },
-                    compute(data: { id: bigint; }) {
+                    compute(data: { id: number; }) {
                         return data.id.toString();
                     }
                 },

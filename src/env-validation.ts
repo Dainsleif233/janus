@@ -10,24 +10,7 @@ class Env {
 
     @IsString()
     @IsNotEmpty()
-    DB_HOST: string;
-
-    @IsNumber()
-    @Min(0)
-    @Max(65535)
-    DB_PORT: number;
-
-    @IsString()
-    @IsNotEmpty()
-    DB_USERNAME: string;
-
-    @IsString()
-    @IsNotEmpty()
-    DB_PASSWORD: string;
-
-    @IsString()
-    @IsNotEmpty()
-    DB_NAME: string;
+    DATABASE_URL: string;
 
     @IsUrl({ require_tld: false })
     @IsSecureUrl()
