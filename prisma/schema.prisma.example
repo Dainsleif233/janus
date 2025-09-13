@@ -126,7 +126,7 @@ model UUID {
 
 model AuthorizationCode {
     id         String   @id @unique
-    payload    String
+    payload    Json
     uid        String?  @unique
     consumed   Boolean  @default(false)
     created_at DateTime @default(now())
@@ -137,7 +137,7 @@ model AuthorizationCode {
 
 model DeviceCode {
     id         String   @id @unique
-    payload    String
+    payload    Json
     userCode   String?
     uid        String?  @unique
     consumed   Boolean  @default(false)
@@ -149,7 +149,7 @@ model DeviceCode {
 
 model RefreshToken {
     id         String   @id @unique
-    payload    String
+    payload    Json
     uid        String?  @unique
     consumed   Boolean  @default(false)
     created_at DateTime @default(now())
@@ -160,7 +160,7 @@ model RefreshToken {
 
 model Grant {
     id         String   @id @unique
-    payload    String
+    payload    Json
     uid        String?  @unique
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
@@ -170,7 +170,7 @@ model Grant {
 
 model Interaction {
     id         String   @id @unique
-    payload    String
+    payload    Json
     uid        String?  @unique
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
@@ -180,7 +180,7 @@ model Interaction {
 
 model Session {
     id         String   @id @unique
-    payload    String
+    payload    Json
     uid        String?  @unique
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
