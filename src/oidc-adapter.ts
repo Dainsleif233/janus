@@ -36,7 +36,7 @@ export class OIDCAdapter implements Adapter {
         const data = {
             uid: payload.uid,
             payload: payload,
-            userCode: payload.userCode
+            user_code: payload.userCode
         };
 
         await this.prisma[this.model].upsert({
@@ -84,7 +84,7 @@ export class OIDCAdapter implements Adapter {
     async findByUserCode(userCode: string): Promise<AdapterPayload | undefined> {
         const data = await this.prisma.deviceCode.findFirst({
             where: {
-                userCode: userCode
+                user_code: userCode
             }
         });
 
