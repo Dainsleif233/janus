@@ -65,7 +65,17 @@ export class OIDCAdapter implements Adapter {
             return undefined;
         }
 
-        const accountId = data.payload?.accountId;
+        if (this.type === 'Client') {
+            return data as any as AdapterPayload;
+        }
+
+        const payload = data.payload as AdapterPayload | null;
+
+        if (!payload) {
+            return undefined;
+        }
+
+        const accountId = payload.accountId;
         if (accountId) {
             const user = await this.prisma.user.findFirst({
                 where: {
@@ -78,7 +88,7 @@ export class OIDCAdapter implements Adapter {
             }
         }
 
-        return data.payload;
+        return payload;
     }
 
     async findByUserCode(userCode: string): Promise<AdapterPayload | undefined> {
@@ -88,9 +98,11 @@ export class OIDCAdapter implements Adapter {
             }
         });
 
-        if (data) {
-            return data.payload;
+        if (!data) {
+            return undefined;
         }
+
+        return data.payload as AdapterPayload | undefined;
     }
 
     async findByUid(uid: string): Promise<AdapterPayload | undefined> {
@@ -104,7 +116,7 @@ export class OIDCAdapter implements Adapter {
             return undefined;
         }
 
-        return data.payload;
+        return data.payload as AdapterPayload | undefined;
     }
 
     async consume(id: string): Promise<void> {

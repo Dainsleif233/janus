@@ -32,18 +32,6 @@ export function getExtendedPrismaClient(siteUrl: string) {
                 }
             }
         }
-    }).$extends({
-        result: {
-            $allModels: {
-                payload: {
-                    compute(data: object | undefined) {
-                        if (data != undefined) {
-                            return data.hasOwnProperty('payload') ? data['payload'] : data;
-                        }
-                    },
-                }
-            },
-        }
     });
 
     return extendedPrismaClient;
