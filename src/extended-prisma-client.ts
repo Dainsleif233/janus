@@ -1,12 +1,16 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from './prisma';
+import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
 
 export function getExtendedPrismaClient(siteUrl: string) {
-    const extendedPrismaClient = new PrismaClient().$extends({
+
+    const adapter = new PrismaBetterSqlite3({ url: process.env.DB_CONNECTION_STRING })
+
+    const extendedPrismaClient = new PrismaClient({ adapter }).$extends({
         result: {
             client: {
                 client_id: {
                     needs: { id: true },
-                    compute(data: { id: number; }) {
+                    compute(data: { id: number | bigint; }) {
                         return data.id.toString();
                     }
                 },

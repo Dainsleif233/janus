@@ -25,6 +25,7 @@ async function bootstrap() {
   });
 
   app.enable('trust proxy');
-  await app.listen(process.env.PORT ?? 3000);
+  app.setGlobalPrefix('api/janus');
+  await app.listen(3000);
 }
 bootstrap();

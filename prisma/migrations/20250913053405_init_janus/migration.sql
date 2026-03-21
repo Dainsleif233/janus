@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "yggc_authorization_codes" (
+CREATE TABLE "__PREFIX__yggc_authorization_codes" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "payload" JSONB NOT NULL,
     "uid" TEXT,
@@ -9,7 +9,7 @@ CREATE TABLE "yggc_authorization_codes" (
 );
 
 -- CreateTable
-CREATE TABLE "yggc_device_codes" (
+CREATE TABLE "__PREFIX__yggc_device_codes" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "payload" JSONB NOT NULL,
     "userCode" TEXT,
@@ -20,7 +20,7 @@ CREATE TABLE "yggc_device_codes" (
 );
 
 -- CreateTable
-CREATE TABLE "yggc_refresh_tokens" (
+CREATE TABLE "__PREFIX__yggc_refresh_tokens" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "payload" JSONB NOT NULL,
     "uid" TEXT,
@@ -30,7 +30,7 @@ CREATE TABLE "yggc_refresh_tokens" (
 );
 
 -- CreateTable
-CREATE TABLE "yggc_grants" (
+CREATE TABLE "__PREFIX__yggc_grants" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "payload" JSONB NOT NULL,
     "uid" TEXT,
@@ -39,7 +39,7 @@ CREATE TABLE "yggc_grants" (
 );
 
 -- CreateTable
-CREATE TABLE "yggc_interactions" (
+CREATE TABLE "__PREFIX__yggc_interactions" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "payload" JSONB NOT NULL,
     "uid" TEXT,
@@ -48,7 +48,7 @@ CREATE TABLE "yggc_interactions" (
 );
 
 -- CreateTable
-CREATE TABLE "yggc_sessions" (
+CREATE TABLE "__PREFIX__yggc_sessions" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "payload" JSONB NOT NULL,
     "uid" TEXT,
@@ -57,37 +57,37 @@ CREATE TABLE "yggc_sessions" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "yggc_authorization_codes_id_key" ON "yggc_authorization_codes"("id");
+CREATE UNIQUE INDEX "yggc_authorization_codes_id_key" ON "__PREFIX__yggc_authorization_codes"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "yggc_authorization_codes_uid_key" ON "yggc_authorization_codes"("uid");
+CREATE UNIQUE INDEX "yggc_authorization_codes_uid_key" ON "__PREFIX__yggc_authorization_codes"("uid");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "yggc_device_codes_id_key" ON "yggc_device_codes"("id");
+CREATE UNIQUE INDEX "yggc_device_codes_id_key" ON "__PREFIX__yggc_device_codes"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "yggc_device_codes_uid_key" ON "yggc_device_codes"("uid");
+CREATE UNIQUE INDEX "yggc_device_codes_uid_key" ON "__PREFIX__yggc_device_codes"("uid");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "yggc_refresh_tokens_id_key" ON "yggc_refresh_tokens"("id");
+CREATE UNIQUE INDEX "yggc_refresh_tokens_id_key" ON "__PREFIX__yggc_refresh_tokens"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "yggc_refresh_tokens_uid_key" ON "yggc_refresh_tokens"("uid");
+CREATE UNIQUE INDEX "yggc_refresh_tokens_uid_key" ON "__PREFIX__yggc_refresh_tokens"("uid");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "yggc_grants_id_key" ON "yggc_grants"("id");
+CREATE UNIQUE INDEX "yggc_grants_id_key" ON "__PREFIX__yggc_grants"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "yggc_grants_uid_key" ON "yggc_grants"("uid");
+CREATE UNIQUE INDEX "yggc_grants_uid_key" ON "__PREFIX__yggc_grants"("uid");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "yggc_interactions_id_key" ON "yggc_interactions"("id");
+CREATE UNIQUE INDEX "yggc_interactions_id_key" ON "__PREFIX__yggc_interactions"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "yggc_interactions_uid_key" ON "yggc_interactions"("uid");
+CREATE UNIQUE INDEX "yggc_interactions_uid_key" ON "__PREFIX__yggc_interactions"("uid");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "yggc_sessions_id_key" ON "yggc_sessions"("id");
+CREATE UNIQUE INDEX "yggc_sessions_id_key" ON "__PREFIX__yggc_sessions"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "yggc_sessions_uid_key" ON "yggc_sessions"("uid");
+CREATE UNIQUE INDEX "yggc_sessions_uid_key" ON "__PREFIX__yggc_sessions"("uid");

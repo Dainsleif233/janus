@@ -1,0 +1,191 @@
+generator client {
+    provider = "prisma-client-js"
+    output = "../src/prisma"
+    engineType = "client"
+}
+
+datasource db {
+    provider = "sqlite"
+    url = env("DB_CONNECTION_STRING")
+}
+
+model AuthorizationCode {
+    id         String   @id @unique
+    payload    Json
+    uid        String?  @unique
+    consumed   Boolean  @default(false)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("__PREFIX__yggc_authorization_codes")
+}
+
+model DeviceCode {
+    id         String   @id @unique
+    payload    Json
+    userCode   String?
+    uid        String?  @unique
+    consumed   Boolean  @default(false)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("__PREFIX__yggc_device_codes")
+}
+
+model RefreshToken {
+    id         String   @id @unique
+    payload    Json
+    uid        String?  @unique
+    consumed   Boolean  @default(false)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("__PREFIX__yggc_refresh_tokens")
+}
+
+model Grant {
+    id         String   @id @unique
+    payload    Json
+    uid        String?  @unique
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("__PREFIX__yggc_grants")
+}
+
+model Interaction {
+    id         String   @id @unique
+    payload    Json
+    uid        String?  @unique
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("__PREFIX__yggc_interactions")
+}
+
+model Session {
+    id         String   @id @unique
+    payload    Json
+    uid        String?  @unique
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("__PREFIX__yggc_sessions")
+}
+
+model CodeIdToUUID {
+    id         Int              @id @default(autoincrement())
+    code_id    String           @unique(map: "code_id_to_uuid_code_id_unique")
+    uuid       String
+    created_at DateTime         @default(now())
+    code       PassportAuthCode @relation(fields: [code_id], references: [id])
+
+    @@map("__PREFIX__code_id_to_uuid")
+}
+
+model PassportAuthCode {
+    id           String        @id
+    user_id      BigInt
+    client_id    BigInt
+    scopes       String?
+    revoked      Boolean
+    expires_at   DateTime?
+    CodeIdToUUID CodeIdToUUID?
+
+    @@index([user_id], map: "oauth_auth_codes_user_id_index")
+    @@map("__PREFIX__oauth_auth_codes")
+}
+
+model User {
+    uid                Int      @id @default(autoincrement())
+    email              String
+    nickname           String   @default("")
+    locale             String?
+    score              Int
+    avatar             Int      @default(0)
+    password           String
+    ip                 String
+    is_dark_mode       Boolean  @default(false)
+    permission         Int      @default(0)
+    last_sign_at       DateTime
+    register_at        DateTime
+    verified           Boolean  @default(false)
+    verification_token String   @default("")
+    remember_token     String?
+
+    @@map("__PREFIX__users")
+}
+
+model PassportAccessToken {
+    id         String    @id
+    user_id    BigInt?
+    client_id  BigInt
+    name       String?
+    scopes     String?
+    revoked    Boolean
+    created_at DateTime?
+    updated_at DateTime?
+    expires_at DateTime?
+
+    @@index([user_id], map: "oauth_access_tokens_user_id_index")
+    @@map("__PREFIX__oauth_access_tokens")
+}
+
+model Player {
+    pid           Int      @id @default(autoincrement())
+    uid           Int
+    name          String
+    tid_cape      Int      @default(0)
+    last_modified DateTime
+    tid_skin      Int      @default(-1)
+    uuid          UUID?
+
+    @@map("__PREFIX__players")
+}
+
+model UUID {
+    id         Int       @id @default(autoincrement())
+    pid        Int?      @unique(map: "uuid_pid_unique")
+    name       String    @unique(map: "uuid_name_unique")
+    uuid       String    @unique(map: "uuid_uuid_unique")
+    created_at DateTime?
+    updated_at DateTime?
+    player     Player?   @relation(fields: [pid], references: [pid])
+
+    @@map("__PREFIX__uuid")
+}
+
+model PassportRefreshToken {
+    id              String    @id
+    access_token_id String
+    revoked         Boolean
+    expires_at      DateTime?
+
+    @@index([access_token_id], map: "oauth_refresh_tokens_access_token_id_index")
+    @@map("__PREFIX__oauth_refresh_tokens")
+}
+
+model Option {
+    id    Int    @id @default(autoincrement())
+    name  String @map("option_name")
+    value String @map("option_value")
+
+    @@map("__PREFIX__options")
+}
+
+model Client {
+    id                     BigInt    @id @default(autoincrement())
+    user_id                BigInt?
+    client_name            String    @map("name")
+    client_secret          String?   @map("secret")
+    provider               String?
+    redirect               String
+    personal_access_client Boolean
+    password_client        Boolean
+    revoked                Boolean
+    created_at             DateTime?
+    updated_at             DateTime?
+
+    @@index([user_id], map: "oauth_clients_user_id_index")
+    @@map("__PREFIX__oauth_clients")
+}

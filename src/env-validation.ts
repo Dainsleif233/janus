@@ -1,24 +1,20 @@
 import { plainToInstance } from "class-transformer";
-import { IsNotEmpty, IsNumber, IsString, IsUrl, Max, Min, registerDecorator, validateSync, ValidationArguments, ValidationOptions } from "class-validator";
+import { IsNumber, IsString, IsUrl, registerDecorator, validateSync, ValidationArguments, ValidationOptions } from "class-validator";
 
 class Env {
 
-    @IsNumber()
-    @Min(0)
-    @Max(65535)
-    PORT: number;
-
     @IsString()
-    @IsNotEmpty()
-    DATABASE_URL: string;
-
-    @IsUrl({ require_tld: false })
-    @IsSecureUrl()
-    ISSUER: string;
+    DB_DATABASE: string;
 
     @IsUrl({ require_tld: false })
     @IsSecureUrl()
     BS_SITE_URL: string;
+
+    @IsString()
+    BS_SITE_NAME: string;
+
+    @IsString()
+    BS_FAVICON_URL: string;
 
     @IsString()
     SHARED_CLIENT_ID: string;
