@@ -1,10 +1,12 @@
 generator client {
     provider = "prisma-client-js"
+    output = "../src/prisma"
+    engineType = "client"
 }
 
 datasource db {
     provider = "postgresql"
-    url      = env("DB_CONNECTION_STRING")
+    url = env("DB_CONNECTION_STRING")
 }
 
 model CodeIdToUUID {
@@ -14,7 +16,7 @@ model CodeIdToUUID {
     created_at DateTime         @default(now())
     code       PassportAuthCode @relation(fields: [code_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "code_id_to_uuid_code_id_foreign")
 
-    @@map("code_id_to_uuid")
+    @@map("__PREFIX__code_id_to_uuid")
 }
 
 model PassportAccessToken {
@@ -29,7 +31,7 @@ model PassportAccessToken {
     expires_at DateTime?
 
     @@index([user_id], map: "oauth_access_tokens_user_id_index")
-    @@map("oauth_access_tokens")
+    @@map("__PREFIX__oauth_access_tokens")
 }
 
 model PassportAuthCode {
@@ -42,7 +44,7 @@ model PassportAuthCode {
     CodeIdToUUID CodeIdToUUID?
 
     @@index([user_id], map: "oauth_auth_codes_user_id_index")
-    @@map("oauth_auth_codes")
+    @@map("__PREFIX__oauth_auth_codes")
 }
 
 model PassportRefreshToken {
@@ -52,7 +54,7 @@ model PassportRefreshToken {
     expires_at      DateTime?
 
     @@index([access_token_id], map: "oauth_refresh_tokens_access_token_id_index")
-    @@map("oauth_refresh_tokens")
+    @@map("__PREFIX__oauth_refresh_tokens")
 }
 
 model Client {
@@ -69,7 +71,7 @@ model Client {
     updated_at             DateTime?
 
     @@index([user_id], map: "oauth_clients_user_id_index")
-    @@map("oauth_clients")
+    @@map("__PREFIX__oauth_clients")
 }
 
 model Option {
@@ -77,7 +79,7 @@ model Option {
     name  String @map("option_name") @db.VarChar(50)
     value String @map("option_value")
 
-    @@map("options")
+    @@map("__PREFIX__options")
 }
 
 model Player {
@@ -89,7 +91,7 @@ model Player {
     tid_skin      Int      @default(-1)
     uuid          UUID?
 
-    @@map("players")
+    @@map("__PREFIX__players")
 }
 
 model User {
@@ -109,7 +111,7 @@ model User {
     verification_token String    @default("") @db.VarChar(255)
     remember_token     String?   @db.VarChar(100)
 
-    @@map("users")
+    @@map("__PREFIX__users")
 }
 
 model UUID {
@@ -121,7 +123,7 @@ model UUID {
     updated_at DateTime?
     player     Player?   @relation(fields: [pid], references: [pid], onDelete: Cascade, onUpdate: NoAction, map: "uuid_pid_foreign")
 
-    @@map("uuid")
+    @@map("__PREFIX__uuid")
 }
 
 model AuthorizationCode {
@@ -132,7 +134,7 @@ model AuthorizationCode {
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
 
-    @@map("yggc_authorization_codes")
+    @@map("__PREFIX__yggc_authorization_codes")
 }
 
 model DeviceCode {
@@ -144,7 +146,7 @@ model DeviceCode {
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
 
-    @@map("yggc_device_codes")
+    @@map("__PREFIX__yggc_device_codes")
 }
 
 model RefreshToken {
@@ -155,7 +157,7 @@ model RefreshToken {
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
 
-    @@map("yggc_refresh_tokens")
+    @@map("__PREFIX__yggc_refresh_tokens")
 }
 
 model Grant {
@@ -165,7 +167,7 @@ model Grant {
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
 
-    @@map("yggc_grants")
+    @@map("__PREFIX__yggc_grants")
 }
 
 model Interaction {
@@ -175,7 +177,7 @@ model Interaction {
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
 
-    @@map("yggc_interactions")
+    @@map("__PREFIX__yggc_interactions")
 }
 
 model Session {
@@ -185,138 +187,5 @@ model Session {
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
 
-    @@map("yggc_sessions")
-}
-
-model invitation_codes {
-    id           Int       @id @default(autoincrement())
-    code         String    @db.VarChar(255)
-    generated_at DateTime
-    used_by      Int       @default(0)
-    used_at      DateTime?
-    description  String?   @db.VarChar(255)
-
-    @@map("invitation_codes")
-}
-
-model jobs {
-    id           BigInt @id @default(autoincrement())
-    queue        String @db.VarChar(255)
-    payload      String
-    attempts     Int
-    reserved_at  Int?
-    available_at Int
-    created_at   Int
-
-    @@index([queue], map: "jobs_queue_index")
-    @@map("jobs")
-}
-
-model language_lines {
-    id         Int       @id @default(autoincrement())
-    group      String    @db.VarChar(255)
-    key        String    @db.VarChar(255)
-    text       String
-    created_at DateTime?
-    updated_at DateTime?
-
-    @@index([group], map: "language_lines_group_index")
-    @@map("language_lines")
-}
-
-model migrations {
-    id        Int    @id @default(autoincrement())
-    migration String @db.VarChar(255)
-    batch     Int
-
-    @@map("migrations")
-}
-
-model mojang_verifications {
-    id         Int       @id @default(autoincrement())
-    user_id    Int       @unique(map: "mojang_verifications_user_id_unique")
-    uuid       String    @unique(map: "mojang_verifications_uuid_unique") @db.VarChar(32)
-    verified   Boolean
-    created_at DateTime?
-    updated_at DateTime?
-
-    @@map("mojang_verifications")
-}
-
-model notifications {
-    id              String    @id @db.Char(36)
-    type            String    @db.VarChar(255)
-    notifiable_type String    @db.VarChar(255)
-    notifiable_id   BigInt
-    data            String
-    read_at         DateTime?
-    created_at      DateTime?
-    updated_at      DateTime?
-
-    @@index([notifiable_type, notifiable_id], map: "notifications_notifiable_type_notifiable_id_index")
-    @@map("notifications")
-}
-
-model ygg_log {
-    id         Int      @id @default(autoincrement())
-    action     String   @db.VarChar(255)
-    user_id    Int
-    player_id  Int
-    parameters String   @default("") @db.VarChar(2048)
-    ip         String   @default("") @db.VarChar(255)
-    time       DateTime
-
-    @@map("ygg_log")
-}
-
-model oauth_personal_access_clients {
-    id         BigInt    @id @default(autoincrement())
-    client_id  BigInt
-    created_at DateTime?
-    updated_at DateTime?
-
-    @@map("oauth_personal_access_clients")
-}
-
-model textures {
-    tid       Int      @id @default(autoincrement())
-    name      String   @db.VarChar(50)
-    type      String   @db.VarChar(10)
-    hash      String   @db.VarChar(64)
-    size      Int
-    uploader  Int
-    public    Int
-    upload_at DateTime
-    likes     Int      @default(0)
-
-    @@map("textures")
-}
-
-model user_closet {
-    user_uid    Int
-    texture_tid Int
-    item_name   String?
-
-    @@id([user_uid, texture_tid])
-    @@map("user_closet")
-}
-
-model reports {
-    id        Int      @id @default(autoincrement())
-    tid       Int
-    uploader  Int
-    reporter  Int
-    reason    String
-    status    Int
-    report_at DateTime
-
-    @@map("reports")
-}
-
-model scopes {
-    id          Int    @id @default(autoincrement())
-    name        String @unique(map: "scopes_name_unique") @db.VarChar(255)
-    description String @db.VarChar(255)
-
-    @@map("scopes")
+    @@map("__PREFIX__yggc_sessions")
 }

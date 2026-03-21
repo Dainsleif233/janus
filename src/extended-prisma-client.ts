@@ -1,7 +1,13 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from './prisma';
+import { PrismaPg } from '@prisma/adapter-pg'
+import { Pool } from 'pg'
 
 export function getExtendedPrismaClient(siteUrl: string) {
-    const extendedPrismaClient = new PrismaClient().$extends({
+
+    const pool = new Pool({ connectionString: process.env.DB_CONNECTION_STRING })
+    const adapter = new PrismaPg(pool)
+
+    const extendedPrismaClient = new PrismaClient({ adapter }).$extends({
         result: {
             client: {
                 client_id: {

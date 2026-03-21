@@ -11,7 +11,7 @@ import { validate } from './env-validation';
 
 @Module({
     imports: [
-        ConfigModule.forRoot({ isGlobal: true, validate: validate }),
+        ConfigModule.forRoot({ isGlobal: true, validate: validate, expandVariables: true }),
         CustomPrismaModule.forRootAsync({
             name: EXTENDED_PRISMA_SERVICE,
             useFactory: (config: ConfigService) => { // SO FUCKING STUPID, someone refactor this please

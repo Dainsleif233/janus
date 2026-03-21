@@ -4,8 +4,7 @@ import { BS_RESOURCE_INDICATOR, OIDCProviderService } from './oidc-provider.serv
 import { Request, Response } from "express";
 import { CustomPrismaService } from 'nestjs-prisma';
 import { EXTENDED_PRISMA_SERVICE, ExtendedPrismaClient } from './extended-prisma-client';
-import { getDateWithTimezoneOffset } from './helper';
-import { CodeIdToUUID, PassportAuthCode, User } from '@prisma/client';
+import { CodeIdToUUID, PassportAuthCode, User } from './prisma';
 import { YggCScopes } from './blessing.types';
 
 @Injectable()
@@ -51,27 +50,30 @@ export class AppService {
             }, { mergeWithLastSubmission: false });
         }
 
+        const queryNow = new Date();
+
         const authCode: PassportAuthCode | null = await this.prisma.client.passportAuthCode.findFirst({
             where: {
                 id: code,
-                revoked: false,
-                expires_at: {
-                    gte: getDateWithTimezoneOffset()
-                }
+                revoked: false
             }
         });
 
-        if (!authCode) {
+        const isExpired = !authCode?.expires_at || authCode.expires_at.getTime() < queryNow.getTime();
+
+        if (!authCode || isExpired) {
             return this.provider.interactionFinished(req, res, {
                 error: "invalid_grant",
                 error_description: "Invalid or expired code"
             });
         }
 
+        const requireVerification = await this.oidcProvider.getBlessingOption('require_verification');
+
         const user: User | null = await this.prisma.client.user.findFirst({
             where: {
                 uid: Number(authCode?.user_id),
-                verified: true,
+                ...(requireVerification === 'true' ? { verified: true } : {}),
                 permission: {
                     not: -1
                 }
