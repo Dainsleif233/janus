@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE `yggc_authorization_codes` (
+CREATE TABLE `__PREFIX__yggc_authorization_codes` (
     `id` VARCHAR(255) NOT NULL,
     `payload` JSON NOT NULL,
     `uid` VARCHAR(255) NULL,
@@ -13,7 +13,7 @@ CREATE TABLE `yggc_authorization_codes` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `yggc_device_codes` (
+CREATE TABLE `__PREFIX__yggc_device_codes` (
     `id` VARCHAR(255) NOT NULL,
     `payload` JSON NOT NULL,
     `userCode` VARCHAR(191) NULL,
@@ -28,7 +28,7 @@ CREATE TABLE `yggc_device_codes` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `yggc_refresh_tokens` (
+CREATE TABLE `__PREFIX__yggc_refresh_tokens` (
     `id` VARCHAR(255) NOT NULL,
     `payload` JSON NOT NULL,
     `uid` VARCHAR(255) NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `yggc_refresh_tokens` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `yggc_grants` (
+CREATE TABLE `__PREFIX__yggc_grants` (
     `id` VARCHAR(255) NOT NULL,
     `payload` JSON NOT NULL,
     `uid` VARCHAR(255) NULL,
@@ -55,7 +55,7 @@ CREATE TABLE `yggc_grants` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `yggc_interactions` (
+CREATE TABLE `__PREFIX__yggc_interactions` (
     `id` VARCHAR(255) NOT NULL,
     `payload` JSON NOT NULL,
     `uid` VARCHAR(255) NULL,
@@ -68,7 +68,7 @@ CREATE TABLE `yggc_interactions` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `yggc_sessions` (
+CREATE TABLE `__PREFIX__yggc_sessions` (
     `id` VARCHAR(255) NOT NULL,
     `payload` JSON NOT NULL,
     `uid` VARCHAR(255) NULL,

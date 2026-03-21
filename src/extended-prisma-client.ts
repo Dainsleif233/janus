@@ -1,7 +1,18 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from './prisma';
+import { PrismaMariaDb } from '@prisma/adapter-mariadb'
 
 export function getExtendedPrismaClient(siteUrl: string) {
-    const extendedPrismaClient = new PrismaClient().$extends({
+
+    const adapter = new PrismaMariaDb({
+        host: process.env.DB_HOST,
+        port: parseInt(process.env.DB_PORT || '3306'),
+        user: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_DATABASE,
+        connectionLimit: 5
+    })
+
+    const extendedPrismaClient = new PrismaClient({ adapter }).$extends({
         result: {
             client: {
                 client_id: {

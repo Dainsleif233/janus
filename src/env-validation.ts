@@ -3,11 +3,6 @@ import { IsNotEmpty, IsNumber, IsString, IsUrl, Max, Min, registerDecorator, val
 
 class Env {
 
-    @IsNumber()
-    @Min(0)
-    @Max(65535)
-    PORT: number;
-
     @IsString()
     @IsNotEmpty()
     DB_HOST: string;
@@ -27,15 +22,17 @@ class Env {
 
     @IsString()
     @IsNotEmpty()
-    DB_NAME: string;
-
-    @IsUrl({ require_tld: false })
-    @IsSecureUrl()
-    ISSUER: string;
+    DB_DATABASE: string;
 
     @IsUrl({ require_tld: false })
     @IsSecureUrl()
     BS_SITE_URL: string;
+
+    @IsString()
+    BS_SITE_NAME: string;
+
+    @IsString()
+    BS_FAVICON_URL: string;
 
     @IsString()
     SHARED_CLIENT_ID: string;
